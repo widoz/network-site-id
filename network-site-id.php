@@ -3,7 +3,9 @@
  * Plugin Name: Network site ID
  *
  * Author:      Guido Scialfa
+ * Author URL:  http://www.guidoscialfa.com
  * Version:     1.0
+ * License:     Gpl2
  * Description: Show the sites ID on network installation
  *
  *    Copyright (C) 2013  Guido Scialfa <dev@guidoscialfa.com>
