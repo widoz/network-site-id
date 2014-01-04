@@ -54,11 +54,35 @@ class SZ_Network_Site_ID
 		// Add node to admin menu
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'site-id',
-			'title' => __( 'Site ID:' ) . $site_id,
+			'title' => __( 'Site ID' ) . ' ' . $site_id,
 			'meta'  => array(
 				'class' => 'sz-network-id',
 			),
 		) );
+	}
+
+	/**
+	 * Add Site ID to the menu items
+	 *
+	 * @param object $wp_admin_bar The WP_Admin_Bar instance
+	 */
+	public function sz_add_site_id_to_item( $wp_admin_bar )
+	{
+		// Need direct access to item object
+		foreach( (array) $wp_admin_bar as $node => $array )
+		{
+			// Get and modify menu title
+			foreach( (array) $wp_admin_bar->user->blogs as $blog )
+			{
+				// Set menu ID
+				$menu_id = 'blog-' . $blog->userblog_id;
+				// Get title
+				$title   = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title;
+				// Change title
+				$array[ $menu_id ]->title = $title;
+			}
+			break; // done
+		}
 	}
 
 	/**
@@ -79,8 +103,10 @@ class SZ_Network_Site_ID
 	 */
 	private function __construct()
 	{
+		// Add ID to the Menu Item
+		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
 		// Admin bar menu
-		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id' ), 999 );
+		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id' ),        999 );
 	}
 }
 endif;
