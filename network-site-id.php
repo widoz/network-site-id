@@ -25,16 +25,21 @@
  *    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+// Prevent Direct Access
+if( ! defined( 'ABSPATH' ) ) exit;
+
 if( ! class_exists( 'SZ_Network_Site_ID' ) ) :
 class SZ_Network_Site_ID
 {
 	/**
 	 * Class Instance
+	 *
+	 * @var object
 	 */
 	private static $network_site_id = false;
 
 	/**
-	 * Create new menu note
+	 * Create new menu node
 	 *
 	 * @param object $wp_admin_bar The admin bar object
 	 */
@@ -42,14 +47,17 @@ class SZ_Network_Site_ID
 	{
 		if( !is_super_admin() || !is_admin_bar_showing() )
 			return;
-		
+
 		// Get Site ID
 		$site_id = get_current_blog_id();
 		
 		// Add node to admin menu
 		$wp_admin_bar->add_menu( array(
-			'id' => 'site-id',
-			'title' => __( 'Site ID: ', 'sz' ) . $site_id,
+			'id'    => 'site-id',
+			'title' => __( 'Site ID:' ) . $site_id,
+			'meta'  => array(
+				'class' => 'sz-network-id',
+			),
 		) );
 	}
 
@@ -77,4 +85,5 @@ class SZ_Network_Site_ID
 }
 endif;
 
+// Get instance
 SZ_Network_Site_ID::get_instance();
