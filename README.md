@@ -1,4 +1,4 @@
-network-site-id
+Wordpress Network Site ID
 ===============
 
-Add site id to the network installation
+Add site ID to the admin bar on wordpress network.
