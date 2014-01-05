@@ -68,6 +68,9 @@ class SZ_Network_Site_ID
 	 */
 	public function sz_add_site_id_to_item( $wp_admin_bar )
 	{
+		if( !is_super_admin() || !is_admin_bar_showing() )
+			return;
+
 		// Need direct access to item object
 		foreach( (array) $wp_admin_bar as $node => $array )
 		{
