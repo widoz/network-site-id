@@ -28,9 +28,8 @@
 // Prevent Direct Access
 if( ! defined( 'ABSPATH' ) ) exit;
 
-if( ! class_exists( 'SZ_Network_Site_ID' ) ) :
-class SZ_Network_Site_ID
-{
+class SZ_Network_Site_ID {
+
 	/**
 	 * Class Instance
 	 *
@@ -41,12 +40,15 @@ class SZ_Network_Site_ID
 	/**
 	 * Create new menu node
 	 *
-	 * @param object $wp_admin_bar The admin bar object
+	 * @since 1.0
+	 *
+	 * @param  object $wp_admin_bar The admin bar object
+	 * @return void
 	 */
-	public function sz_add_site_id( $wp_admin_bar )
-	{
-		if( !is_super_admin() || !is_admin_bar_showing() )
+	public function sz_add_site_id( $wp_admin_bar ) {
+		if ( !is_super_admin() || !is_admin_bar_showing() ) {
 			return;
+		}
 
 		// Get Site ID
 		$site_id = get_current_blog_id();
@@ -64,25 +66,23 @@ class SZ_Network_Site_ID
 	/**
 	 * Add Site ID to the menu items
 	 *
-	 * @param object $wp_admin_bar The WP_Admin_Bar instance
+	 * @since 1.0
+	 *
+	 * @param  object $wp_admin_bar The WP_Admin_Bar instance
+	 * @return void
 	 */
-	public function sz_add_site_id_to_item( $wp_admin_bar )
-	{
-		if( !is_super_admin() || !is_admin_bar_showing() )
+	public function sz_add_site_id_to_item( $wp_admin_bar ) {
+		if ( !is_super_admin() || !is_admin_bar_showing() ) {
 			return;
+		}
 
 		// Need direct access to item object
-		foreach( (array) $wp_admin_bar as $node => $array )
-		{
+		foreach ( (array) $wp_admin_bar as $node => $array ) {
 			// Get and modify menu title
-			foreach( (array) $wp_admin_bar->user->blogs as $blog )
-			{
-				// Set menu ID
-				$menu_id = 'blog-' . $blog->userblog_id;
-				// Get title
-				$title   = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title;
-				// Change title
-				$array[ $menu_id ]->title = $title;
+			foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+				$menu_id                  = 'blog-' . $blog->userblog_id;                           // Set menu ID
+				$title                    = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title; // Get title
+				$array[ $menu_id ]->title = $title;                                                 // Change title
 			}
 			break; // done
 		}
@@ -90,11 +90,13 @@ class SZ_Network_Site_ID
 
 	/**
 	 * Singleton
+	 *
+	 * @since 1.0
+	 *
+	 * @return object SZ_Network_Site_ID instance
 	 */
-	public static function get_instance()
-	{
-		if( ! self::$network_site_id )
-		{
+	public static function get_instance() {
+		if ( ! self::$network_site_id ) {
 			self::$network_site_id = new self;
 		}
 
@@ -104,15 +106,13 @@ class SZ_Network_Site_ID
 	/**
 	 * Construct
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		// Add ID to the Menu Item
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
 		// Admin bar menu
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id' ),        999 );
 	}
 }
-endif;
 
 // Get instance
 SZ_Network_Site_ID::get_instance();
