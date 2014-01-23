@@ -43,6 +43,7 @@ class SZ_Network_Site_ID {
 	 * @since 1.0
 	 *
 	 * @param  object $wp_admin_bar The admin bar object
+	 *
 	 * @return void
 	 */
 	public function sz_add_site_id( $wp_admin_bar ) {
@@ -69,6 +70,7 @@ class SZ_Network_Site_ID {
 	 * @since 1.0
 	 *
 	 * @param  object $wp_admin_bar The WP_Admin_Bar instance
+	 *
 	 * @return void
 	 */
 	public function sz_add_site_id_to_item( $wp_admin_bar ) {
@@ -86,6 +88,21 @@ class SZ_Network_Site_ID {
 			}
 			break; // done
 		}
+	}
+
+	/**
+	 * Add Site ID to the sites list table
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $sites_columns Associative array with id and columns name
+	 *
+	 * @return array $sites_columns The filtered array
+	 */
+	public function sz_wpmu_blogs_columns( $sites_columns ) {
+		$tmp = array_splice( $sites_columns, 0, 1 );
+		$sites_columns = array_merge( $tmp, array( 'id' => 'ID' ), $sites_columns );
+		return $sites_columns;
 	}
 
 	/**
@@ -108,9 +125,14 @@ class SZ_Network_Site_ID {
 	 */
 	private function __construct() {
 		// Add ID to the Menu Item
-		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
+		add_action( 'admin_bar_menu',             array( $this, 'sz_add_site_id_to_item' ),           21 );
 		// Admin bar menu
-		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id' ),        999 );
+		add_action( 'admin_bar_menu',             array( $this, 'sz_add_site_id' ),                  999 );
+		// Add ID to the sites list table
+		add_action( 'manage_sites_custom_column', array( $this, 'sz_manage_sites_custom_column' ), 10, 2 );
+
+		// Add columns to sites list table
+		add_filter( 'wpmu_blogs_columns',         array( $this, 'sz_wpmu_blogs_columns' ),         10, 1 );
 	}
 }
 
