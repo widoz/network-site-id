@@ -8,7 +8,7 @@
  * License:     Gpl2
  * Description: Show the sites ID on network installation
  *
- *    Copyright (C) 2013  Guido Scialfa <dev@guidoscialfa.com>
+ *    Copyright (C) 2014  Guido Scialfa <dev@guidoscialfa.com>
  *
  *    This program is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU General Public License
