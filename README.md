@@ -1,4 +1,8 @@
 Wordpress Network Site ID
 ===============
 
-Add site ID to the admin bar on wordpress network.
+This plugin add site ID's to the following locations
+
+- Admin Bar
+- My Site submenu item
+- Site Network screen page ( as column into the list table )
