@@ -7,6 +7,7 @@
  * Version:     1.0
  * License:     Gpl
  * Description: Show the blogs ID on admin bar in network installation
+ * GitHub Plugin URI: https://github.com/widoz/network-site-id
  *
  *    Copyright (C) 2014  Guido Scialfa <dev@guidoscialfa.com>
  *
