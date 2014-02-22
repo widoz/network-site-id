@@ -5,8 +5,8 @@
  * Author:      Guido Scialfa
  * Author URI:  http://www.guidoscialfa.com
  * Version:     1.0
- * License:     Gpl2
- * Description: Show the sites ID on network installation
+ * License:     Gpl
+ * Description: Show the blogs ID on admin bar in network installation
  *
  *    Copyright (C) 2014  Guido Scialfa <dev@guidoscialfa.com>
  *
