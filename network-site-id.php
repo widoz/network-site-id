@@ -4,7 +4,7 @@
  * Plugin URI:  http://github.com/widoz/network-site-id
  * Author:      Guido Scialfa
  * Author URI:  http://www.guidoscialfa.com
- * Version:     1.0.1
+ * Version:     1.1.0
  * License:     Gpl2
  * Description: Show the blogs ID on admin bar in network installation
  * Git URI:     http://github.com/widoz/network-site-id
@@ -27,11 +27,11 @@
  */
 
 // Prevent Direct Access
-if ( !defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
 
-class SZ_Network_Site_ID
-{
+class SZ_Network_Site_ID {
 
 	/**
 	 * Class Instance
@@ -61,6 +61,7 @@ class SZ_Network_Site_ID
 	 * @return void
 	 */
 	public function sz_add_nodes( $wp_admin_bar ) {
+
 		if ( ! is_super_admin() || ! is_admin_bar_showing() ) {
 			return;
 		}
@@ -109,14 +110,15 @@ class SZ_Network_Site_ID
 	 * @return void
 	 */
 	public function sz_add_site_id_to_item( $wp_admin_bar ) {
+
 		if ( ! is_super_admin() || ! is_admin_bar_showing() ) {
 			return;
 		}
 
 		// Need direct access to item object
-		foreach ( (array)$wp_admin_bar as $node => $array ) {
+		foreach ( (array) $wp_admin_bar as $node => $array ) {
 			// Get and modify menu title
-			foreach ( (array)$wp_admin_bar->user->blogs as $blog ) {
+			foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 				$menu_id                  = 'blog-' . $blog->userblog_id;                           // Set menu ID
 				$title                    = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title; // Get title
 				$array[ $menu_id ]->title = $title;                                                 // Change title
@@ -126,7 +128,7 @@ class SZ_Network_Site_ID
 	}
 
 	/**
-	 * Add Site ID to the sites list table
+	 * Add site ID column to the sites list table
 	 *
 	 * @since 1.0
 	 *
@@ -135,10 +137,25 @@ class SZ_Network_Site_ID
 	 * @return array $sites_columns The filtered array
 	 */
 	public function sz_wpmu_blogs_columns( $sites_columns ) {
+
+		if ( ! is_array( $sites_columns ) ) {
+			$sites_columns = (array) $sites_columns;
+		}
+
 		$tmp           = array_splice( $sites_columns, 0, 1 );
 		$sites_columns = array_merge( $tmp, array( 'id' => 'ID' ), $sites_columns );
 
 		return $sites_columns;
+	}
+
+	/**
+	 * Show the ID of the blog
+	 *
+	 * @since 1.1.0
+	 *
+	 */
+	public function manage_sites_custom_column( $column, $value ) {
+		echo $value;
 	}
 
 	/**
@@ -149,6 +166,7 @@ class SZ_Network_Site_ID
 	 * @return object SZ_Network_Site_ID instance
 	 */
 	public static function get_instance() {
+
 		if ( null === self::$_network_site_id ) {
 			self::$_network_site_id = new self;
 		}
@@ -164,11 +182,15 @@ class SZ_Network_Site_ID
 		// Nodes
 		$this->_nodes = array( 'site-id', 'theme-info' );
 
-		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );                       // Add ID to the Menu Item
-		add_action( 'admin_bar_menu', array( $this, 'sz_add_nodes' ), 999 );                                // Admin bar menu
-		add_action( 'manage_sites_custom_column', array( $this, 'sz_manage_sites_custom_column' ), 10, 2 ); // Add ID to the sites list table
+		// Add ID to the Menu Item
+		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
+		// Admin bar menu
+		add_action( 'admin_bar_menu', array( $this, 'sz_add_nodes' ), 999 );
+		// Add ID to the sites list table
+		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
 
-		add_filter( 'wpmu_blogs_columns', array( $this, 'sz_wpmu_blogs_columns' ), 10, 1 ); // Add columns to sites list table
+		// Add columns to sites list table
+		add_filter( 'wpmu_blogs_columns', array( $this, 'sz_wpmu_blogs_columns' ), 10, 1 );
 	}
 }
 
