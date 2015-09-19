@@ -4,7 +4,7 @@
  * Plugin URI:  http://github.com/widoz/network-site-id
  * Author:      Guido Scialfa
  * Author URI:  http://www.guidoscialfa.com
- * Version:     1.1.0
+ * Version:     2.0.0
  * License:     Gpl2
  * Description: Show the blogs ID on admin bar in network installation
  * Git URI:     http://github.com/widoz/network-site-id
