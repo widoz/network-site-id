@@ -128,37 +128,6 @@ class SZ_Network_Site_ID {
 	}
 
 	/**
-	 * Add site ID column to the sites list table
-	 *
-	 * @since 1.0
-	 *
-	 * @param array $sites_columns Associative array with id and columns name
-	 *
-	 * @return array $sites_columns The filtered array
-	 */
-	public function sz_wpmu_blogs_columns( $sites_columns ) {
-
-		if ( ! is_array( $sites_columns ) ) {
-			$sites_columns = (array) $sites_columns;
-		}
-
-		$tmp           = array_splice( $sites_columns, 0, 1 );
-		$sites_columns = array_merge( $tmp, array( 'id' => 'ID' ), $sites_columns );
-
-		return $sites_columns;
-	}
-
-	/**
-	 * Show the ID of the blog
-	 *
-	 * @since 1.1.0
-	 *
-	 */
-	public function manage_sites_custom_column( $column, $value ) {
-		echo $value;
-	}
-
-	/**
 	 * Singleton
 	 *
 	 * @since 1.0
@@ -186,11 +155,6 @@ class SZ_Network_Site_ID {
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
 		// Admin bar menu
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_nodes' ), 999 );
-		// Add ID to the sites list table
-		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
-
-		// Add columns to sites list table
-		add_filter( 'wpmu_blogs_columns', array( $this, 'sz_wpmu_blogs_columns' ), 10, 1 );
 	}
 }
 
