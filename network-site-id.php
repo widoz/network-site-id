@@ -175,6 +175,15 @@ class SZ_Network_Site_ID {
 	}
 
 	/**
+	 * Admin Enqueue Scripts
+	 *
+	 * @since 2.0.1
+	 */
+	public function sz_admin_enqueue_scripts() {
+		wp_enqueue_style( 'sz-network-style', plugin_dir_url( __FILE__ ) . '/assets/css/admin/style.css', [], '1.0.0', 'screen' );
+	}
+
+	/**
 	 * Construct
 	 */
 	private function __construct() {
@@ -186,6 +195,8 @@ class SZ_Network_Site_ID {
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
 		// Admin bar menu
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_nodes' ), 999 );
+		// Admin Style
+		add_action( 'admin_enqueue_scripts', array( $this, 'sz_admin_enqueue_scripts' ) );
 
 		// Add ID to the sites list table
 		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );

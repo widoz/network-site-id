@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+/**
+ * Admin Column Width
+ */
+.sites.fixed .column-id {
+	width      : 10%;
+	text-align : center;
+}
+
+@media screen and ( max-width : 782px ) {
+	.sites.fixed th.column-id,
+	.sites.fixed .column-id,
+	.sites.fixed .column-id::before {
+		display : none!important;
+	}
+}
