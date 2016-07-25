@@ -26,11 +26,14 @@
  *    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// Prevent Direct Access
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Prevent Direct Access.
+defined( 'ABSPATH' ) || die;
 
+/**
+ * Class SZ_Network_Site_ID
+ *
+ * @since 1.0.0
+ */
 class SZ_Network_Site_ID {
 
 	/**
@@ -56,7 +59,7 @@ class SZ_Network_Site_ID {
 	 *
 	 * @since 1.0.1
 	 *
-	 * @param  object $wp_admin_bar The admin bar object
+	 * @param  object $wp_admin_bar The admin bar object.
 	 *
 	 * @return void
 	 */
@@ -66,10 +69,10 @@ class SZ_Network_Site_ID {
 			return;
 		}
 
-		$args    = array();               // Node arguments
-		$site_id = get_current_blog_id(); // Get Site ID
+		$args    = array();               // Node arguments.
+		$site_id = get_current_blog_id(); // Get Site ID.
 
-		if ( sizeof( $this->_nodes ) > 0 ) {
+		if ( count( $this->_nodes ) > 0 ) {
 			foreach ( $this->_nodes as $node ) {
 				switch ( $node ) {
 					case 'site-id' :
@@ -94,7 +97,7 @@ class SZ_Network_Site_ID {
 						break;
 				}
 
-				// Add node to admin menu
+				// Add node to admin menu.
 				$wp_admin_bar->add_node( $args );
 			}
 		}
@@ -105,7 +108,7 @@ class SZ_Network_Site_ID {
 	 *
 	 * @since 1.0
 	 *
-	 * @param  object $wp_admin_bar The WP_Admin_Bar instance
+	 * @param  object $wp_admin_bar The WP_Admin_Bar instance.
 	 *
 	 * @return void
 	 */
@@ -115,15 +118,15 @@ class SZ_Network_Site_ID {
 			return;
 		}
 
-		// Need direct access to item object
+		// Need direct access to item object.
 		foreach ( (array) $wp_admin_bar as $node => $array ) {
-			// Get and modify menu title
+			// Get and modify menu title.
 			foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-				$menu_id                  = 'blog-' . $blog->userblog_id;                           // Set menu ID
-				$title                    = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title; // Get title
-				$array[ $menu_id ]->title = $title;                                                 // Change title
+				$menu_id                  = 'blog-' . $blog->userblog_id;                           // Set menu ID.
+				$title                    = $blog->userblog_id . ' - ' . $array[ $menu_id ]->title; // Get title.
+				$array[ $menu_id ]->title = $title;                                                 // Change title.
 			}
-			break; // done
+			break;
 		}
 	}
 
@@ -132,7 +135,7 @@ class SZ_Network_Site_ID {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array $sites_columns Associative array with id and columns name
+	 * @param array $sites_columns Associative array with id and columns name.
 	 *
 	 * @return array $sites_columns The filtered array
 	 */
@@ -153,8 +156,10 @@ class SZ_Network_Site_ID {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @return void
 	 */
 	public function manage_sites_custom_column( $column, $value ) {
+
 		echo $value;
 	}
 
@@ -180,7 +185,8 @@ class SZ_Network_Site_ID {
 	 * @since 2.1.0
 	 */
 	public function sz_admin_enqueue_scripts() {
-		wp_enqueue_style( 'sz-network-style', plugin_dir_url( __FILE__ ) . '/assets/css/admin/style.css', [], '1.0.0', 'screen' );
+
+		wp_enqueue_style( 'sz-network-style', plugin_dir_url( __FILE__ ) . '/assets/css/admin/style.css', array(), '1.0.0', 'screen' );
 	}
 
 	/**
@@ -188,22 +194,22 @@ class SZ_Network_Site_ID {
 	 */
 	private function __construct() {
 
-		// Nodes
+		// Nodes.
 		$this->_nodes = array( 'site-id', 'theme-info' );
 
-		// Add ID to the Menu Item
+		// Add ID to the Menu Item.
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_site_id_to_item' ), 21 );
-		// Admin bar menu
+		// Admin bar menu.
 		add_action( 'admin_bar_menu', array( $this, 'sz_add_nodes' ), 999 );
-		// Admin Style
+		// Admin Style.
 		add_action( 'admin_enqueue_scripts', array( $this, 'sz_admin_enqueue_scripts' ) );
 
-		// Add ID to the sites list table
+		// Add ID to the sites list table.
 		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
-		// Add columns to sites list table
+		// Add columns to sites list table.
 		add_filter( 'wpmu_blogs_columns', array( $this, 'sz_wpmu_blogs_columns' ), 10, 1 );
 	}
 }
 
-// Get instance
+// Get instance.
 SZ_Network_Site_ID::get_instance();
